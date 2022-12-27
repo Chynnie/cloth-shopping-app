@@ -1,0 +1,58 @@
+Using 'index' in route is saying that when you match the base component path '/' you also want the child component that has the 'index' attribute to show alongside the base component path '/'. 
+That is we want the component that has 'index' as an attribute to show as the Outlet in the base routing component. For example:
+<Routes>
+  <Route path='/' element={<ParentComponent />}>
+    <Route index element={<ChildComponent />} />
+  </Route>
+</Routes>
+
+Note also that writing just 'index' as an attribute is the same as saying 'index={true}'.
+So in other words 'index' is shorthand for 'index={true}'.
+
+Firebase:
+To setup firebase, you have to improt the library from 'firebase' slash(/) what yoy want to pull in this case 'app'.
+For example: import { initializeApp } from 'firebase/app';
+Firebase is a 'suite' of tools and Firestorm is one of the tools inside it.
+So you bring down this 'suite' from the library as a thing called the 'app'.
+So in order to get the 'suite' you need the 'initializeApp' function.
+This 'initializeApp' function creates an app instance for you based off some type of config.
+This config is an object that allows us to attach the 'Firebase app' instance to that instance that we have online.
+
+In Firebase, we initialize the 'GoogleAuthProvider()' and assign it to a variable, 'provider'. For Example:
+const provider = new GoogleAuthProvider();
+
+we access the 'setCustomParameters()' object tool from the provider and in it, we use the 'prompt' property to prompt the user to select an account to login. For example:
+provider.setCustomParameters({
+  prompt: "select_account"
+});
+This 'setCustomParameters()' are primarily used for Google authentication providers, which is specific to Google's own interface. The example above, is just some particular configuration the Google wants.
+
+GoogleAuthProvider is essentially a class that we get from Firebase Authentication and this is connected to Google auth itself.
+Google auth has many different implementations, the one we're focusing on is juat that of Firebase authentication's own.
+
+
+Note: You might have many different provider instances doing different things. For example:
+For signInWIthPopup, we passed it a provider (which is the GoogleAuthProvider) e.g 'export const signInWithGooglePopup = () => signInWithPopup(auth, provider);'.
+With signInWithRedirect, you pass in a different provider.
+
+These providers are kind of just instructions for this instance of provider (like the GoogleAuthProvider). You can have different multiple providers.
+
+Authentication (auth) on the other hand, is a 'singleton' meaning that the way your application authenticates and the rules for authentication, and the authentication that communicates with Firebase, should always be the same one for every application.
+Why would you have different authentication services for one application? That doesn't make sense, right? Once you authenticate for this website as a whole, it should be held on to for the duration of the lifecycle if this application.
+You would not ever really need more that one authentication, whereas you might need multiple providers because you might have different buttons that trigger different forms of even Google sign in with pop up; maybe some of them prompt you to select an account, maybe some of them don't. You can imagine that there are dofferent cases and use cases for these too.
+
+
+In the authentication tab of the project we created in our firebase account, you will see the list of users that signed in with different authentication services, whether it be Google sign in or any other sign in methods that are available that you can add. They could be Facebook, GitHub, Twitter, Email and password signin methods - al these are different authentication provider services.
+They will add to your user list inside of the authentication tab. But these are not necessarily users that are accessible within your file store database.
+
+The authentication service is different from the Firestore database.
+Firestore is the actual database that we're going to be leveraging, and this is pretty much like a schema list database.
+Schema lists just really means that it's pretty much a JSON object. You can store whatever fields with whatever values you want.
+Generally, you want the fields and values to be more consistent so that your data is consistent across users, meaning that if you get user one versus user 1000, you can trust that the shape of the data is the same, meaning that they have the same fields, maybe they have the same first name field and the last name fields with whatever the value of those users will be, but you want that consistency.
+
+So, to have our users inside of our Firestore, what we are going to do is that we are going to makes sure that whenever a user authenticates, we also create a record of them inside of Firestore.
+
+Inside Firestore is really comprising data of three things. There is the:
+- Collection (for example a 'folder')
+- Document (for example a 'file' name)
+- Data (for example the 'contents' or 'data' in the file)
