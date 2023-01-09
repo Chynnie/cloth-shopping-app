@@ -5,6 +5,7 @@ import {
 	signInWithPopup,
 	GoogleAuthProvider,
 	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -44,7 +45,7 @@ export const createUserDocumentFromAuth = async (
 
 	const userSnapshot = await getDoc(userDocRef);
 	console.log(userSnapshot);
-	console.log(userSnapshot.exists());
+	console.log(userSnapshot.exists()); // to check if the user exists
 
 	// check if user data exists
 	// if user data does not exist
@@ -73,4 +74,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	if (!email || !password) return; // this means that if you don't get an argument, then the function should not run
 
 	return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+	if (!email || !password) return;
+
+	return await signInWithEmailAndPassword(auth, email, password);
 };
